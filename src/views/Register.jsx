@@ -42,7 +42,6 @@ const Register = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         padding: "20px",
       }}
     >
@@ -54,10 +53,10 @@ const Register = () => {
         }}
       >
         <div style={{ textAlign: "center", marginBottom: 30 }}>
-          <Title level={2} style={{ marginBottom: 10, color: "#1890ff" }}>
+          <Title level={2} style={{ marginBottom: 10, color: "#1a1a1a", fontWeight: 600 }}>
             Create Account
           </Title>
-          <p style={{ color: "#8c8c8c" }}>Register a new user</p>
+          <p style={{ color: "#666666", fontSize: 16 }}>Register a new user</p>
         </div>
 
         <Form
@@ -160,8 +159,8 @@ const Register = () => {
         </Form>
 
         <div style={{ textAlign: "center", marginTop: 16 }}>
-          <span style={{ color: "#8c8c8c" }}>Already have an account? </span>
-          <Link to="/login" style={{ color: "#1890ff" }}>
+          <span style={{ color: "#666666", fontSize: 14 }}>Already have an account? </span>
+          <Link to="/login" style={{ color: "#1a1a1a", fontSize: 14, fontWeight: 500 }}>
             Login now
           </Link>
         </div>

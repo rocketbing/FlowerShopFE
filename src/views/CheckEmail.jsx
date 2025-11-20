@@ -60,7 +60,7 @@ const CheckEmail = () => {
             <MailOutlined
               style={{
                 fontSize: 64,
-                color: "#1890ff",
+                color: "#1a1a1a",
                 marginBottom: 16,
               }}
             />
@@ -72,30 +72,30 @@ const CheckEmail = () => {
               marginBottom: 16,
             }}
           />
-          <Title level={2} style={{ marginBottom: 16, color: "#1890ff" }}>
+          <Title level={2} style={{ marginBottom: 16, color: "#1a1a1a", fontWeight: 600 }}>
             Please Check Your Email
           </Title>
-          <Paragraph style={{ fontSize: 16, color: "#8c8c8c", marginBottom: 8 }}>
+          <Paragraph style={{ fontSize: 16, color: "#666666", marginBottom: 8 }}>
             We've sent a verification email to the following address:
           </Paragraph>
           <Text
             strong
             style={{
               fontSize: 16,
-              color: "#1890ff",
+              color: "#1a1a1a",
               display: "inline-block",
               padding: "8px 16px",
-              backgroundColor: "#f0f5ff",
+              backgroundColor: "#f5f5f5",
               borderRadius: 4,
               marginBottom: 24,
             }}
           >
             {email}
           </Text>
-          <Paragraph style={{ fontSize: 14, color: "#8c8c8c", marginBottom: 8 }}>
+          <Paragraph style={{ fontSize: 14, color: "#666666", marginBottom: 8 }}>
             Please click the verification link in the email to activate your account
           </Paragraph>
-          <Paragraph style={{ fontSize: 14, color: "#8c8c8c", marginBottom: 24 }}>
+          <Paragraph style={{ fontSize: 14, color: "#666666", marginBottom: 24 }}>
             If you didn't receive the email, please check your spam folder or try resending
           </Paragraph>
         </div>
@@ -125,9 +125,9 @@ const CheckEmail = () => {
         </Space>
 
         <div style={{ marginTop: 24, paddingTop: 24, borderTop: "1px solid #f0f0f0" }}>
-          <Paragraph style={{ fontSize: 12, color: "#8c8c8c", margin: 0 }}>
+          <Paragraph style={{ fontSize: 12, color: "#666666", margin: 0 }}>
             Email not delivered? Please verify your email address is correct, or{" "}
-            <Link to="/register" style={{ color: "#1890ff", marginLeft: 4 }}>
+            <Link to="/register" style={{ color: "#1a1a1a", marginLeft: 4, fontWeight: 500 }}>
               register again
             </Link>
           </Paragraph>

@@ -1,0 +1,93 @@
+h1,h2 {
+    font-family: 'Baskerville', serif;
+    color: #131313;
+}
+p {
+    font:'16px Arial, sans-serif';
+    color:#212326
+}
+
+/* 默认样式：大屏幕（min-width: 577px） */
+h1 {
+    font-size: 40px;
+    
+}
+
+h2 {
+    font-size: 28px;
+}
+
+/* 小屏幕（max-width: 576px） */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 28px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+}
+.view-addresses-btn {
+    color: #1A1B18;
+    font: 17px Baskerville, serif;
+    padding: 5px 10px;
+    border: 1px solid #d2d5d9;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    display: inline-block;
+    cursor: pointer;
+    &:hover {
+        border: 1px solid #1A1B18;
+        background-color: #e0e0e0;
+    }
+}
+
+.a_link_underline {
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    background-image: linear-gradient(
+      to right,
+      #1A1B18 0%,
+      #1A1B18 100%
+    );
+    background-size: 0% 1px;     // 初始宽度为 0
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s ease;
+  
+    // 静止时保持为旧颜色
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background-color: #d2d6d9;
+      z-index: -1;
+    }
+  
+    &:hover {
+      background-size: 100% 1px; // 从 0 → 100%，形成“扫过”动画
+    }
+}
+
+.address_card {
+    width: 70%;
+    height: 300px;
+    border-radius: 5px;
+    padding: 30px;
+    border: 1px solid #d2d6d9;
+    @media (max-width: 576px) {
+        width: 90%
+    }
+
+}
+.ant-modal-title {
+    font:'28px Baskerville, serif';
+    color: #131313 !important;
+}
+.ant-modal-header {
+    padding-bottom: 30px !important;
+  }
