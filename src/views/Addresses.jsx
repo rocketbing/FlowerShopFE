@@ -30,7 +30,6 @@ export default function Addresses() {
     const [form] = Form.useForm();
     const [editForm] = Form.useForm();
     const [editingAddress, setEditingAddress] = useState(null); // 用于跟踪正在编辑的地址类型和索引
-    const [shippingAddressArray, setShippingAddressArray] = useState([]);
     
     useEffect(() => {
         dispatch(getUserInfoAsync());
@@ -129,15 +128,14 @@ export default function Addresses() {
         if(setAsHomeAddress) {
             dispatch(updateUserInfoAsync({ homeAddress: restValues }));
         } else {
-            setShippingAddressArray([...shippingAddressArray, restValues]);
-            dispatch(updateUserInfoAsync({ shippingAddress: shippingAddressArray }));
+            dispatch(updateUserInfoAsync({ shippingAddress: restValues }));
         }
         setIsModalOpen(false);
         form.resetFields();
     };
     
     return (
-        <div style={{ width: "70%", margin: "0 auto", borderRadius: "10px", padding: "20px" }}>
+        <div style={{ width: "80%", margin: "0 auto", borderRadius: "10px", padding: "20px" }}>
             <h1>Addresses</h1>
             <span className="a_link_underline" onClick={() => navigate("/account")}>Return to Account Details</span>
             <div style={{ margin: "50px 0" }}>

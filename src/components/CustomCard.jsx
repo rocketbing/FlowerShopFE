@@ -1,69 +1,55 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-import whiteFlower01 from "../images/whiteFlower01.jpg";
-import whiteFlower02 from "../images/whiteFlower02.jpg";
-const { Meta } = Card;
-const CustomCard = ({ title, origianlPrice, salesPrice }) => {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <Card
-      hoverable
-      style={{ width: 300, position: "relative", overflow: "hidden" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      cover={
-        <div style={{ position: "relative", height: "200px" }}>
-          <img
-            src={whiteFlower01}
-            alt="flower1"
-            draggable={false}
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: hovered ? 0 : 1,
-              transition: "opacity 0.5s ease-in-out",
-            }}
-          />
-          <img
-            src={whiteFlower02}
-            alt="flower2"
-            draggable={false}
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: hovered ? 1 : 0,
-              transition: "opacity 0.5s ease-in-out",
-            }}
-          />
-        </div>
-      }
-    >
-      {hovered && (
-        <SearchOutlined
-          style={{
-            position: "absolute",
-            top: 8,
-            right: 8,
-            fontSize: 22,
-            color: "white",
-            cursor: "pointer",
-            opacity: hovered ? 1 : 0,
-            transform: hovered ? "scale(1)" : "scale(0.3)",
-            transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)",
-          }}
-        />
-      )}
+import CartDrawer from "./CartDrawer";
+import {showCartDrawer,addItem} from "../store/cart";
+import { useAppDispatch } from "../store/hooks";
 
-      <Meta
-        title={<div style={{ whiteSpace: "normal" }}>{title}</div>}
-        description={salesPrice}
-      />
-    </Card>
+
+
+const CustomCard = ({ title, description, origianlPrice, salesPrice, imageUrl, imageAlt, product }) => {
+  const dispatch = useAppDispatch();
+  const handleAddToCart = () => {
+    dispatch(showCartDrawer());
+    dispatch(addItem({product, cartQuantity: 1}));
+
+  };
+  return (
+    <div className="mb-5">
+      <Card
+        hoverable
+        cover={
+          <div style={{ position: "relative", height: "200px" }}>
+            <img
+              src={imageUrl}
+              alt={imageAlt}
+              draggable={false}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+        }
+      >
+      </Card>
+      <div className="description">
+          <p>{title} - {description}</p>
+          {salesPrice ? (
+            <>
+              <span style={{ textDecoration: "line-through", color: "#8c8c8c", marginRight: "8px" }}>
+                $ {origianlPrice ? parseFloat(origianlPrice).toFixed(2) : "0.00"}
+              </span>
+              <span>$ {parseFloat(salesPrice).toFixed(2)}</span>
+            </>
+          ) : (
+            <span>$ {origianlPrice ? parseFloat(origianlPrice).toFixed(2) : "0.00"}</span>
+          )}
+      </div>
+      <div className="addToCart"><span onClick={handleAddToCart}>A D D &nbsp; T O &nbsp; C A R T</span></div>
+    </div>
+
+
   );
 };
 export default CustomCard;

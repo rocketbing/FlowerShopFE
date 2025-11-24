@@ -2,9 +2,16 @@ h1,h2 {
     font-family: 'Baskerville', serif;
     color: #131313;
 }
-p {
-    font:'16px Arial, sans-serif';
-    color:#212326
+p, .description p {
+    font: 16px Arial, sans-serif;
+    color: #212326;
+    margin: 0;
+}
+.description {
+    margin: 10px 0 30px 0;
+    span {
+        font-size: 20px;
+    }
 }
 
 /* 默认样式：大屏幕（min-width: 577px） */
@@ -82,7 +89,21 @@ h2 {
     @media (max-width: 576px) {
         width: 90%
     }
-
+}
+.addToCart {
+    font: 16px Baskerville, serif;
+    color: #FFFFFF;
+    background-color: #1A1B18;
+    padding: 13px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    border-radius: 5px;
+    
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        opacity: 0.8;
+    }
 }
 .ant-modal-title {
     font:'28px Baskerville, serif';

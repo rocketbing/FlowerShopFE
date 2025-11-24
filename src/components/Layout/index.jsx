@@ -3,11 +3,16 @@ import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
 import { Layout as AntLayout, Row, Col, Menu, Space, Avatar, Badge } from "antd";
 import { UserOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { logoutAsync } from "../../store/auth"
+import { logoutAsync } from "../../store/auth";
+import { useSelector } from "react-redux";
+import { showCartDrawer } from "../../store/cart";
+import CartDrawer from "../CartDrawer";
+
 const { Header, Content } = AntLayout;
 
 const Layout = () => {
   const navigate = useNavigate();
+  const { count } = useSelector((state) => state.cart);
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
@@ -224,14 +229,14 @@ const Layout = () => {
                 )}
               </Col>
               <Col>
-                <Link to="/cart">
-                  <Badge count={0} showZero>
+                <div onClick={() => dispatch(showCartDrawer())} style={{ cursor: "pointer" }}>
+                  <Badge count={count} showZero>
                     <Avatar
                       icon={<ShoppingCartOutlined />}
                       style={{ backgroundColor: "#1a1a1a", cursor: "pointer" }}
                     />
                   </Badge>
-                </Link>
+                </div>
               </Col>
             </Row>
           </Col>
@@ -265,6 +270,9 @@ const Layout = () => {
         {/* This Outlet will render the child routes */}
         <Outlet />
       </Content>
+
+      {/* Global Shopping Cart Drawer */}
+      <CartDrawer />
     </AntLayout>
   );
 };

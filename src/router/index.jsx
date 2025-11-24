@@ -30,6 +30,7 @@ import MetalVase from "../views/categories/VasesUrns/MetalVase";
 import PlasticVase from "../views/categories/VasesUrns/PlasticVase";
 import GlassVase from "../views/categories/VasesUrns/GlassVase";
 import Addresses from "../views/Addresses";
+import Cart from "../views/Cart";
 
 export default function Router() {
   return (
@@ -42,6 +43,7 @@ export default function Router() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="check-email" element={<CheckEmail />} />
+          <Route path="cart" element={<Cart />} />
           {/* Artificial Flower subcategories */}
           <Route path="categories/artificial-hydrangeas" element={<ArtificialHydrangeas />} />
           <Route path="categories/artificial-roses" element={<ArtificialRoses />} />
