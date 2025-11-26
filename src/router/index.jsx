@@ -5,6 +5,7 @@ import Register from "../views/Register";
 import Home from "../views/Home";
 import CheckEmail from "../views/CheckEmail";
 import Account from "../views/Account";
+import ResetPassword from "../views/ResetPassword";
 // Artificial Flower subcategories
 import ArtificialHydrangeas from "../views/categories/ArtificialFlower/ArtificialHydrangeas";
 import ArtificialRoses from "../views/categories/ArtificialFlower/ArtificialRoses";
@@ -42,6 +43,7 @@ export default function Router() {
           <Route path="addresses" element={<Addresses />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="reset-password" element={<ResetPassword />} />
           <Route path="check-email" element={<CheckEmail />} />
           <Route path="cart" element={<Cart />} />
           {/* Artificial Flower subcategories */}

@@ -85,6 +85,10 @@ const Login = () => {
     message.error("Google login failed. Please try again.");
   };
 
+  const handleResetPassword = () => {
+    navigate("/reset-password");
+  };
+
   // Build tab items - only include Google Login tab if enabled
   const tabItems = [
     {
@@ -123,14 +127,17 @@ const Login = () => {
               placeholder="Password"
             />
           </Form.Item>
+          <Form.Item style={{ marginBottom: 0, textAlign: "left" }}>
+            <span className="a_link_underline" onClick={handleResetPassword}>Reset Password</span>
+          </Form.Item>
 
           <Form.Item>
             <Button
-              type="primary"
+              
               htmlType="submit"
               loading={loading}
               block
-              style={{ height: 42 }}
+              style={{ height: 42,backgroundColor: '#000', color: '#fff' }}
             >
               Login
             </Button>

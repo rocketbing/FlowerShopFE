@@ -5,6 +5,9 @@ const initialState = {
     total: 0, // 购物车商品总价格
     // 屏幕右侧Modal的显示状态
     isModalVisible: false,
+    discountCode: "", // 折扣码
+    discountAmount: 0, // 折扣金额
+    discountPercentage: 0, // 折扣百分比
 };
 
 const cartSlice = createSlice({
@@ -82,9 +85,28 @@ const cartSlice = createSlice({
         hideCartDrawer: (state) => {
             state.isModalVisible = false;
         },
+
+        // 设置折扣码
+        setDiscountCode: (state, action) => {
+            state.discountCode = action.payload;
+        },
+
+        // 应用折扣（设置折扣金额和百分比）
+        applyDiscount: (state, action) => {
+            const { discountAmount, discountPercentage } = action.payload;
+            state.discountAmount = discountAmount || 0;
+            state.discountPercentage = discountPercentage || 0;
+        },
+
+        // 清除折扣
+        clearDiscount: (state) => {
+            state.discountCode = "";
+            state.discountAmount = 0;
+            state.discountPercentage = 0;
+        },
     },
 });
 
-export const { addItem, removeItem, updateQuantity, clearCart, setCart, showCartDrawer, hideCartDrawer } = cartSlice.actions;
+export const { addItem, removeItem, updateQuantity, clearCart, setCart, showCartDrawer, hideCartDrawer, setDiscountCode, applyDiscount, clearDiscount } = cartSlice.actions;
 export default cartSlice.reducer;
 

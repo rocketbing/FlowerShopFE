@@ -57,7 +57,7 @@ request.interceptors.response.use(
         window.location.href = "/login";
         break;
       case 400:
-        errorMessage = `Bad Request: ${errorMessage}`;
+        // 直接使用错误消息，不添加前缀
         break;
       case 404:
         errorMessage = `Not Found: ${errorMessage}`;
