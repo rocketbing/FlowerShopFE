@@ -13,6 +13,44 @@ export const getAllProductAsync = createAsyncThunk(
         }
     }
 );
+// Edit product
+export const editProductAsync = createAsyncThunk(
+    "products/editProduct",
+    async (product, { rejectWithValue }) => {
+        try {
+            const response = await req(`/products/${product.id}`, "PUT", product);
+            return response;
+        }
+        catch (error) {
+            return rejectWithValue(error.message || "Failed to edit product");
+        }
+    }
+);
+// Delete product
+export const deleteProductAsync = createAsyncThunk(
+    "products/deleteProduct",
+    async (id, { rejectWithValue }) => {
+        try {
+            const response = await req(`/products/${id}`, "DELETE");
+            return response;
+        }
+        catch (error) {
+            return rejectWithValue(error.message || "Failed to delete product");
+        }
+    }
+);
+// Add product
+export const addProductAsync = createAsyncThunk(
+    "products/addProduct",
+    async (product, { rejectWithValue }) => {
+        try {
+            const response = await req("/products", "POST", product);
+            return response;
+        }
+    catch (error) {
+        return rejectWithValue(error.message || "Failed to add product");
+    }
+});
 
 const initialState = {
     products: {

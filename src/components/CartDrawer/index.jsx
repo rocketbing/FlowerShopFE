@@ -11,7 +11,6 @@ const CartDrawer = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { items, isModalVisible,total } = useAppSelector((state) => state.cart);
-  console.log(items);
 
   const handleClose = () => {
     dispatch(hideCartDrawer());

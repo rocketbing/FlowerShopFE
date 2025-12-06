@@ -1,19 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Table, Button, Typography, Row, Col, Space, Input, message } from "antd";
+import { Table, Button, Typography, Row, Col, Space, Input, message, Radio } from "antd";
 import { MinusOutlined, PlusOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { updateQuantity, removeItem, setDiscountCode, applyDiscount, clearDiscount } from "../store/cart";
 import { req } from "../utils/request";
+import { getUserInfoAsync } from "../store/auth";
 
 const { Text } = Typography;
 
 export default function Cart() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { items, total, discountCode, discountAmount, discountPercentage } = useAppSelector((state) => state.cart);
+    const { items, total, discountCode, shippingFee } = useAppSelector((state) => state.cart);
     const [inputDiscountCode, setInputDiscountCode] = useState(discountCode || "");
     const [discountRate, setDiscountRate] = useState(0);
+    const { user } = useAppSelector((state) => state.auth);
+    const homeAddress = user?.data?.homeAddress;
+    const shippingAddresses = user?.data?.shippingAddress || [];
+    const [selectedAddress, setSelectedAddress] = useState(null);
+
+
+
+    useEffect(() => {
+        dispatch(getUserInfoAsync());
+    }, [dispatch]);
 
     const columns = [
         {
@@ -219,6 +230,11 @@ export default function Cart() {
                                         </div>
                                     )}
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                        <Text>Shipping Fee (Estimated time: 5 - 7 business days):</Text>
+                                        <Text>${shippingFee.toFixed(2)}</Text>
+                                    </div>
+                                    <Text>{shippingFee === 0 ? <span style={{ color: "#52c41a" }}>You are eligible for free shipping! </span> : <span style={{ color: "#f5222d" }}>Get free shipping over $75 before tax</span>}</Text>
+                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
                                         <Text>Tax (13%):</Text>
                                         <Text>${tax.toFixed(2)}</Text>
                                     </div>
@@ -258,6 +274,75 @@ export default function Cart() {
                                 </Space>
                             </Col>
                         </Row>
+                        <hr />
+                        <div className="shippingAddress" style={{ marginTop: "20px", padding: "20px", borderTop: "1px solid #f0f0f0" }}>
+                            <Text strong style={{ font: "22px Baskerville, serif", color: "#707070", display: "block", marginBottom: "16px" }}>
+                                Shipping Address:
+                            </Text>
+                            
+                            {homeAddress || (shippingAddresses && shippingAddresses.length > 0) ? (
+                                <div>
+                                <Radio.Group 
+                                    value={selectedAddress} 
+                                    onChange={(e) => {
+                                        setSelectedAddress(e.target.value);
+                                    }}
+                                    style={{ width: "100%" }}
+                                >
+                                    <Space direction="vertical" style={{ width: "100%" }}>
+                                        {homeAddress?.street && (
+                                            <Radio value="home" style={{ display: "flex", alignItems: "flex-start", marginBottom: "12px", width: "100%" }}>
+                                                <div style={{ marginLeft: "8px" }}>
+                                                    <Text strong style={{ display: "block", marginBottom: "4px" }}>Home Address</Text>
+                                                    <Text type="secondary" style={{ fontSize: "14px" }}>
+                                                        {homeAddress.street}, {homeAddress.city}, {homeAddress.state} {homeAddress.zipCode}, {homeAddress.country}
+                                                    </Text>
+                                                </div>
+                                            </Radio>
+                                        )}
+                                        {shippingAddresses && shippingAddresses.length > 0 && shippingAddresses.map((address, index) => (
+                                            <Radio 
+                                                key={address._id || index} 
+                                                value={`shipping-${address._id || index}`}
+                                                style={{ display: "flex", alignItems: "flex-start", marginBottom: "12px", width: "100%" }}
+                                            >
+                                                <div style={{ marginLeft: "8px" }}>
+                                                    <Text strong style={{ display: "block", marginBottom: "4px" }}>
+                                                        Shipping Address {index + 1}
+                                                    </Text>
+                                                    <Text type="secondary" style={{ fontSize: "14px" }}>
+                                                        {address.street}, {address.city}, {address.state} {address.zipCode}, {address.country}
+                                                    </Text>
+                                                </div>
+                                            </Radio>
+                                        ))}
+                                    </Space>
+                                </Radio.Group>
+                                <Button
+                                type="default"
+                                icon={<PlusOutlined />}
+                                onClick={() => navigate("/addresses")}
+                                style={{ font: "17px Baskerville, serif" }}
+                                >
+                                    Add New Address
+                                </Button>
+                            </div>
+                            ) : (
+                                <div style={{ textAlign: "center", padding: "20px 0" }}>
+                                    <Text type="secondary" style={{ display: "block", marginBottom: "16px" }}>
+                                        No shipping address available
+                                    </Text>
+                                    <Button
+                                        type="default"
+                                        icon={<PlusOutlined />}
+                                        onClick={() => navigate("/addresses")}
+                                        style={{ font: "17px Baskerville, serif" }}
+                                    >
+                                        Add New Address
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </>
             )}

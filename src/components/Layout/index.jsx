@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { showCartDrawer } from "../../store/cart";
 import CartDrawer from "../CartDrawer";
 
-const { Header, Content } = AntLayout;
+const { Header, Content, Footer } = AntLayout;
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -32,13 +32,11 @@ const Layout = () => {
   }, []);
   const handleMenuClick = (e) => {
     console.log("Menu clicked:", e.key);
-    if (e.key.startsWith("/")) {
-      navigate(e.key);
-    }
+    navigate(`/${e.key}`);
   };
 
   // Navigation menu items - 7 tabs evenly distributed
-  const navMenuItems = [
+  const userNavMenuItems = [
     {
       key: "new-in",
       label: "NEW IN",
@@ -48,43 +46,43 @@ const Layout = () => {
       label: "Artificial Flower",
       children: [
         {
-          key: "/categories/artificial-hydrangeas",
+          key: "categories/artificial-hydrangeas",
           label: "Artificial Hydrangeas",
         },
         {
-          key: "/categories/artificial-roses",
+          key: "categories/artificial-roses",
           label: "Artificial Roses",
         },
         {
-          key: "/categories/artificial-lilies",
+          key: "categories/artificial-lilies",
           label: "Artificial Lilies",
         },
         {
-          key: "/categories/artificial-peonies",
+          key: "categories/artificial-peonies",
           label: "Artificial Peonies",
         },
         {
-          key: "/categories/artificial-blossom",
+          key: "categories/artificial-blossom",
           label: "Artificial Blossom",
         },
         {
-          key: "/categories/artificial-tulips",
+          key: "categories/artificial-tulips",
           label: "Artificial Tulips",
         },
         {
-          key: "/categories/artificial-orchids",
+          key: "categories/artificial-orchids",
           label: "Artificial Orchids",
         },
         {
-          key: "/categories/artificial-magnolia",
+          key: "categories/artificial-magnolia",
           label: "Artificial Magnolia",
         },
         {
-          key: "/categories/artificial-berries-dahlias",
+          key: "categories/artificial-berries-dahlias",
           label: "Artificial Berries & Dahlias",
         },
         {
-          key: "/categories/artificial-wild-flowers",
+          key: "categories/artificial-wild-flowers",
           label: "Artificial Wild Flowers",
         },
       ],
@@ -94,19 +92,19 @@ const Layout = () => {
       label: "Artificial Greenery",
       children: [
         {
-          key: "/categories/artificial-eucalyptus",
+          key: "categories/artificial-eucalyptus",
           label: "Artificial Eucalyptus",
         },
         {
-          key: "/categories/artificial-foliage-leaves",
+          key: "categories/artificial-foliage-leaves",
           label: "Artificial Foliage & Leaves",
         },
         {
-          key: "/categories/artificial-garland",
+          key: "categories/artificial-garland",
           label: "Artificial Garland",
         },
         {
-          key: "/categories/artificial-plants",
+          key: "categories/artificial-plants",
           label: "Artificial Plants",
         },
       ],
@@ -116,15 +114,15 @@ const Layout = () => {
       label: "Artificial Arrangement",
       children: [
         {
-          key: "/categories/bridal-arrangement",
+          key: "categories/bridal-arrangement",
           label: "Bridal Arrangement",
         },
         {
-          key: "/categories/flower-bouquet",
+          key: "categories/flower-bouquet",
           label: "Flower Bouquet",
         },
         {
-          key: "/categories/long-arrangement",
+          key: "categories/long-arrangement",
           label: "Long Arrangement",
         },
       ],
@@ -134,15 +132,15 @@ const Layout = () => {
       label: "Vases & Urns",
       children: [
         {
-          key: "/categories/metal-vase",
+          key: "categories/metal-vase",
           label: "Metal Vase",
         },
         {
-          key: "/categories/plastic-vase",
+          key: "categories/plastic-vase",
           label: "Plastic Vase",
         },
         {
-          key: "/categories/glass-vase",
+          key: "categories/glass-vase",
           label: "Glass Vase",
         },
       ],
@@ -156,7 +154,20 @@ const Layout = () => {
       label: "Sales",
     },
   ];
-
+  const adminNavMenuItems = [
+    {
+      key: "administration/manage-products",
+      label: "Manage Products",
+    },
+    {
+      key: "administration/manage-orders",
+      label: "Manage Orders",
+    },
+    {
+      key: "administration/manage-users",
+      label: "Manage Users",
+    },
+  ];
   return (
     <AntLayout>
       <style>
@@ -192,11 +203,11 @@ const Layout = () => {
           position: "relative",
         }}
       >
-        {/* First Row: Logo and Search/Actions */}
+        {/* First Row: Logo and Actions */}
         <Row align="middle" gutter={16} style={{ marginBottom: 16 }}>
           {/* Logo/Company Name - col(12) */}
           <Col span={12}>
-            <Link to="/" style={{ textDecoration: "none" }}>
+            <Link to={user?.role === "user" ? "/" : "/administration/homeAdmin"} style={{ textDecoration: "none" }}>
               <div style={{ 
                 fontSize: 24, 
                 fontWeight: 600, 
@@ -243,11 +254,12 @@ const Layout = () => {
         </Row>
 
         {/* Second Row: Navigation Menu */}
+        {user?.role === "user" && (
         <Row>
           <Col span={24}>
             <Menu
               mode="horizontal"
-              items={navMenuItems}
+              items={userNavMenuItems}
               onClick={handleMenuClick}
               selectedKeys={[]}
               style={{
@@ -263,14 +275,41 @@ const Layout = () => {
               theme="light"
             />
           </Col>
-        </Row>
+        </Row>)}
+        {user?.role === "admin" && (
+          <Row>
+            <Col span={12} offset={6}>
+              <Menu
+                mode="horizontal"
+                items={adminNavMenuItems}
+                onClick={handleMenuClick}
+                selectedKeys={[]}
+                style={{
+                  borderBottom: "none",
+                  display: "flex",
+                  justifyContent: "space-around",
+                  fontWeight: 500,
+                  fontSize: 20,
+                  color: "#1a1a1a",
+                  backgroundColor: "#f5f5f5",
+                  marginTop: "16px",
+                }}
+                theme="light"
+              />
+            </Col>
+          </Row>
+        )}
       </Header>
 
       <Content style={{ padding: "24px", minHeight: "calc(100vh - 120px)" }}>
         {/* This Outlet will render the child routes */}
         <Outlet />
       </Content>
-
+      <Footer>
+        <div style={{ textAlign: "center" }}>
+          <p>Copyright © 2025 Faux Flower Supply. All rights reserved.</p>
+        </div>
+      </Footer>
       {/* Global Shopping Cart Drawer */}
       <CartDrawer />
     </AntLayout>

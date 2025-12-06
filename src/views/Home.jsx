@@ -32,26 +32,56 @@ const Home = () => {
       ) : products.error ? (
         <div>Error: {products.error}</div>
       ) : (<>
-      <h2 className="text-center mb-5 mt-3">New Arrivals</h2>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-          {products.data && products.data.length > 0 ? (
-            products.data.map((product) => (
-              <Col key={product.id || product._id} span={6} className="gutter-row">
-                <CustomCard
-                  title={product.name || product.title}
-                  origianlPrice={product.regularPrice}
-                  salesPrice={product.discountedPrice}
-                  imageUrl={product.images.url}
-                  imageAlt={product.images.alt}
-                  description={product.description}
-                  product={product}
-                />
-              </Col>
-            ))
-          ) : (
-            <div>No products found</div>
-          )}
-        </Row>
+        <div className="new-arrivals mb-5">      <h1 className="text-center mb-5 mt-3">New Arrivals</h1>
+          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+            {products.data && products.data.length > 0 ? (
+              products.data.slice(0, 4).map((product) => (
+                <Col key={product.id || product._id} span={6} className="gutter-row">
+                  <CustomCard
+                    title={product.name || product.title}
+                    origianlPrice={product.regularPrice}
+                    salesPrice={product.discountedPrice}
+                    imageUrl={product.images.url}
+                    imageAlt={product.images.alt}
+                    description={product.description}
+                    product={product}
+                  />
+                </Col>
+              ))
+            ) : (
+              <div>No products found</div>
+            )}
+          </Row>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }} >
+            <Button onClick={() => navigate("/categories/new-in")} style={{width: '200px',padding: '20px 20px'}}>V I E W &nbsp; A L L</Button>
+          </div>
+          </div>
+          <div>
+          <h1 className="text-center mb-5 mt-3">Sales</h1>
+          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+            {products.data && products.data.length > 0 ? (
+              products.data.slice(0, 4).map((product) => (
+                <Col key={product.id || product._id} span={6} className="gutter-row">
+                  <CustomCard
+                    title={product.name || product.title}
+                    origianlPrice={product.regularPrice}
+                    salesPrice={product.discountedPrice}
+                    imageUrl={product.images.url}
+                    imageAlt={product.images.alt}
+                    description={product.description}
+                    product={product}
+                  />
+                </Col>
+              ))
+            ) : (
+              <div>No products found</div>
+            )}
+          </Row>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }} >
+            <Button onClick={() => navigate("/categories/sales")} style={{width: '200px',padding: '20px 20px'}}>V I E W &nbsp; A L L</Button>
+          </div>
+          </div>
+
 
       </>
 

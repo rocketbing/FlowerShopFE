@@ -8,6 +8,7 @@ const initialState = {
     discountCode: "", // 折扣码
     discountAmount: 0, // 折扣金额
     discountPercentage: 0, // 折扣百分比
+    shippingFee:0
 };
 
 const cartSlice = createSlice({
@@ -33,6 +34,7 @@ const cartSlice = createSlice({
                 });
             }
             state.total = state.items.reduce((total, item) => total + (item.discountedPrice || item.regularPrice) * item.cartQuantity, 0);
+            state.shippingFee = state.total >= 75 ? 0 : 9;
         },
 
         // 从购物车移除商品
@@ -42,6 +44,7 @@ const cartSlice = createSlice({
                 (item) => item.id !== itemId && item._id !== itemId
             );
             state.total = state.items.reduce((total, item) => total + (item.discountedPrice || item.regularPrice) * item.cartQuantity, 0);
+            state.shippingFee = state.total >= 75 ? 0 : 9;
         },
 
         // 更新商品数量
@@ -61,6 +64,7 @@ const cartSlice = createSlice({
                     item.cartQuantity = cartQuantity;
                 }
                 state.total = state.items.reduce((total, item) => total + (item.discountedPrice || item.regularPrice) * item.cartQuantity, 0);
+                state.shippingFee = state.total >= 75 ? 0 : 9;
             }
         },
 
@@ -103,7 +107,7 @@ const cartSlice = createSlice({
             state.discountCode = "";
             state.discountAmount = 0;
             state.discountPercentage = 0;
-        },
+        }
     },
 });
 

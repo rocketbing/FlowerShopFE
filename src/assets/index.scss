@@ -38,6 +38,7 @@ h2 {
     color: #1A1B18;
     font: 17px Baskerville, serif;
     padding: 5px 10px;
+    margin-top: 20px;
     border: 1px solid #d2d5d9;
     border-radius: 5px;
     background-color: #f0f0f0;
@@ -101,8 +102,8 @@ h2 {
     border-radius: 5px;
     
     &:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        opacity: 0.8;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+        opacity: 0.8 !important;
     }
 }
 .ant-modal-title {

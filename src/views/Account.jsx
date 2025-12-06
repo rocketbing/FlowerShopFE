@@ -59,8 +59,8 @@ export default function Account() {
                         </>
                     ) : (
                         <>
-                            <p>No addresses found</p>
-                            <div style={{ cursor: "pointer" }} onClick={() => navigate("/addresses")}>
+                            <p className="my-3">No addresses found</p>
+                            <div style={{ cursor: "pointer"}} onClick={() => navigate("/addresses")}>
                                 <span className="view-addresses-btn">View Addresses (0)</span>
                             </div>
                         </>

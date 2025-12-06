@@ -11,6 +11,13 @@ request.interceptors.request.use(
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
+    
+    // 如果是 FormData，让浏览器自动设置 Content-Type（包含 boundary）
+    if (config.data instanceof FormData) {
+      // 不设置 Content-Type，让浏览器自动处理
+      return config;
+    }
+    
     if (
       config.method.toLowerCase() !== "get" &&
       !config.headers["Content-Type"]
@@ -18,9 +25,6 @@ request.interceptors.request.use(
       switch (config.contentType) {
         case "form":
           config.headers["Content-Type"] = "application/x-www-form-urlencoded";
-          break;
-        case "file":
-          config.headers["Content-Type"] = "multipart/form-data";
           break;
         case "text":
           config.headers["Content-Type"] = "text/plain";

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Form, Input, Button, Card, message, Typography, Tabs } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { loginAsync, googleLoginAsync, clearError } from "../store/auth";
+import { loginAsync, googleLoginAsync, clearError, getUserInfoAsync } from "../store/auth";
 
 const { Title } = Typography;
 
@@ -38,9 +38,10 @@ const GoogleLoginButton = ({ onSuccess, onError, loading }) => {
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const { loading, error, isAuthenticated } = useAppSelector((state) => state.auth);
+  const { loading, error, isAuthenticated, user } = useAppSelector((state) => state.auth);
   
   // Check if Google Client ID is configured
   const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -54,13 +55,23 @@ const Login = () => {
     }
   }, [error, dispatch]);
 
-  // Listen for successful login, navigate to home
+  // Listen for successful login, navigate to home or previous page
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && user) {
       message.success("Login successful!");
-      navigate("/");
+      
+      // Get the original destination from route guard, or default based on role
+      const from = location.state?.from?.pathname;
+      
+      if (user.role === "admin") {
+        // For admin, redirect to admin home or the original destination
+        navigate(from || "/administration/homeAdmin", { replace: true });
+      } else {
+        // For regular users, redirect to the original destination or home
+        navigate(from || "/home", { replace: true });
+      }
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, user, navigate, location]);
 
   const onFinish = async (values) => {
     await dispatch(loginAsync(values));
@@ -68,13 +79,22 @@ const Login = () => {
 
   const handleGoogleLoginSuccess = async (idToken) => {
     try {
-      
       // Send the Google ID token to your backend
-      await dispatch(
+      const result = await dispatch(
         googleLoginAsync({ idToken: idToken })
       ).unwrap();
+      
       message.success("Google login successful!");
-      navigate("/");
+      
+      // Get the original destination from route guard, or default based on role
+      const from = location.state?.from?.pathname;
+      const userRole = result.user?.role;
+      
+      if (userRole === "admin") {
+        navigate(from || "/administration/homeAdmin", { replace: true });
+      } else {
+        navigate(from || "/home", { replace: true });
+      }
     } catch (error) {
       console.error("Google login error:", error);
       message.error(error || "Google login failed");
